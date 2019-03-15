@@ -40,7 +40,7 @@ $student = new Student();
                        @foreach($student->gender() as $ind => $gender)
                         <label class="radio-inline">
                             <input type="radio"
-                            name="Student[gender]"  {{ ((isset(old('Student')['sex']) && old('Student')['sex'] == $ind) || $student_info->sex == $ind) ? 'checked' : '' }} value="{{ $ind }}"> {{ $gender }}
+                            name="Student[gender]"  {{ ((isset(old('Student')['gender']) && old('Student')['gender'] == $ind) || $student_info->gender == $ind) ? 'checked' : '' }} value="{{ $ind }}"> {{ $gender }}
                         </label>
                         @endforeach
                     </div>
