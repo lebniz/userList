@@ -3,16 +3,17 @@ use App\models\Student;
 $student = new Student();
 ?>
 @extends('layout/student')
-
+@section('title','Add New User')
 @section('content')
     <!-- 所有的错误提示 -->
     @include('shared/message')
     <!-- 自定义内容区域 -->
     <div class="panel panel-default">
-        <div class="panel-heading">Add New Student</div>
+        <div class="panel-heading">@section('subtitle','Add New Student')</div>
         <div class="panel-body">
             <form class="form-horizontal" method="post" action="{{ url('student/create') }}">
-                {{ csrf_field() }}
+                {{ csrf_field() }} 
+                <!-- --產生token -->
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Name</label>
 
@@ -24,7 +25,7 @@ $student = new Student();
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="age" class="col-sm-2 control-label"></label>
+                    <label for="age" class="col-sm-2 control-label">Age</label>
 
                     <div class="col-sm-5">
                         <input type="text" class="form-control" name="Student[age]" value="{{ old('Student')['age'] }}" id="age" placeholder="Fill the student age">

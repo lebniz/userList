@@ -8,11 +8,24 @@ use \App\models\Student;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-		$students = Student::orderby('id', 'desc')->paginate(5);
-        return view('student/index', ['students' => $students]);
+        $request->session()->put('search', $request->has('search') ? $request->get('search') : ($request->session()->has('search') ? $request->session()->get('search') : ''));
+        $request->session()->put('gender', $request->has('gender') ? $request->get('gender') : ($request->session()->has('gender') ? $request->session()->get('gender') : -1));
+		//$students = Student::orderby('id', 'desc')->paginate(6);
+        //return view('student/index', ['students' => $students]);
+        $students = new Student();
+        if ($request->session()->get('gender') != -1)
+            $students = $students->where('gender', $request->session()->get('gender'));
+        $students = $students->where('name', 'like', '%' . $request->session()->get('search') . '%')
+	        ->orderby('id', 'desc')
+            ->paginate(5);
+        if ($request->ajax())
+            return view('student/index', compact('students'));
+        else
+            return view('student/ajax', compact('students'));
     }
+
 
     public function create(Request $request)
 	{    
@@ -41,7 +54,7 @@ class StudentController extends Controller
 	        // var_dump($ret);
 
 	        if($ret){
-	        	return redirect('/')->with('success', 'Now a student is ADDED!')->withInput();
+	        	return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 	        }else{
 	        	return redirect('student/create')->with('error', 'Failed to add the student info.')->withInput();
 	        }
@@ -80,7 +93,7 @@ class StudentController extends Controller
 			$ret = $student_info->save();
 
 			if($ret){
-				return redirect('/')->with('success', 'Student info is UPDATED!')->withInput();
+				return redirect('student')->with('success', 'Student info is UPDATED!')->withInput();
 			}else{
 				return redirect('student/update')->with('error', 'Failed to update student info.')->withInput();
 			}
@@ -103,7 +116,7 @@ class StudentController extends Controller
 
 	    if($student->delete())
 	    {
-	        return redirect('/')->with('success', 'Delete-'.$id. ' SUCCESS');
+	        return redirect('student')->with('success', 'Delete-'.$id. ' SUCCESS');
 	    } else {
 	        return redirect()->back()->with('error', 'DETELE-'.$id.' FAILED');
 	    }

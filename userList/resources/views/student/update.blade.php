@@ -24,7 +24,7 @@ $student = new Student();
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="age" class="col-sm-2 control-label"></label>
+                    <label for="age" class="col-sm-2 control-label">Age</label>
 
                     <div class="col-sm-5">
                         <input type="text" class="form-control" name="Student[age]" value="{{ old('Student')['age'] ? old('Student')['age'] : $student_info->age }}" id="age" placeholder="Fill the student age">
