@@ -15,6 +15,9 @@ class Student extends Model
      */
     protected $table = "student";
 
+    protected $fillable = [
+        'order_p'
+    ];
     /**
      * assign not to have timestamp on model
      */

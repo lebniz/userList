@@ -6,10 +6,10 @@ $(document).on('submit', 'form#frm', function (event) {
     event.preventDefault();
     var form = $(this);
     var data = new FormData($(this)[0]);
-    //var url = form.attr("action");
+    var url = form.attr("action");
     $.ajax({
         type: form.attr('method'),
-        //url: url,
+        url: url,
         data: data,
         cache: false,
         contentType: false,
@@ -33,19 +33,18 @@ $(document).on('submit', 'form#frm', function (event) {
 });
 
 function ajaxLoad(filename, content) {
-    content = typeof content !== 'undefined' ? content : 'content';
-    $('.loading').show();
-    $.ajax({
-        type: "GET",
-        url: filename,
-        contentType: false,
-        success: function (data) {
-        	console.log(data);
-            $("#" + content).html(data);
-            $('.loading').hide();
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    });
+  content = typeof content !== 'undefined' ? content : 'content';
+  $('.loading').show();
+  $.ajax({
+      type: "GET",
+      url: filename,
+      contentType: false,
+      success: function (data) {
+          $("#" + content).html(data);
+          $('.loading').hide();
+      },
+      error: function (xhr, status, error) {
+          console.log(xhr.responseText);
+      }
+  });
 }
