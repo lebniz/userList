@@ -12,12 +12,12 @@ $student = new Student();
     <div class="panel-heading">Student</div>
     <table class="table table-striped table-hover table-responsive">
         <thead>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Create Time</th>
-            <th>Update Time</th>
+            <th>{{ __('message.id') }}</th>
+            <th>{{ __('message.name') }}</th>
+            <th>{{ __('message.age') }}</th>
+            <th>{{ __('message.gender') }}</th>
+            <th>{{ __('message.created_time') }}</th>
+            <th>{{ __('message.updated_time') }}</th>
         </thead>
         <tbody>
            <tr>

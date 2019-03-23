@@ -16,9 +16,9 @@
 <!-- header -->
 <div class="jumbotron">
     <div class="container">
-        <h2>User List</h2>
+        <h2>{{ __('message.user_list') }}</h2>
 
-        <p> - @yield('subtitle','Laravel Form')</p>
+        <p> - @yield('subtitle',__('message.list_info') )</p>
     </div>
 </div>
 @show

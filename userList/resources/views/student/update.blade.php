@@ -9,12 +9,12 @@ $student = new Student();
     @include('shared/message')
     <!-- 自定义内容区域 -->
     <div class="panel panel-default">
-        <div class="panel-heading">Edit</div>
+        <div class="panel-heading">{{ __('message.edit')}}</div>
         <div class="panel-body">
             <form class="form-horizontal" method="post" action="">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <label for="name" class="col-sm-2 control-label">{{ __('message.name')}}</label>
 
                     <div class="col-sm-5">
                         <input type="text" class="form-control" name="Student[name]" value="{{ old('Student')['name'] ? old('Student')['name'] : $student_info->name }}" id="name" placeholder="Fill the student name">
@@ -24,7 +24,7 @@ $student = new Student();
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="age" class="col-sm-2 control-label">Age</label>
+                    <label for="age" class="col-sm-2 control-label">{{ __('message.age')}}</label>
 
                     <div class="col-sm-5">
                         <input type="text" class="form-control" name="Student[age]" value="{{ old('Student')['age'] ? old('Student')['age'] : $student_info->age }}" id="age" placeholder="Fill the student age">
@@ -34,7 +34,7 @@ $student = new Student();
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Gender</label>
+                    <label class="col-sm-2 control-label">{{ __('message.gender')}}</label>
 
                     <div class="col-sm-5">
                        @foreach($student->gender() as $ind => $gender)
@@ -50,7 +50,7 @@ $student = new Student();
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">{{ __('message.submit')}}</button>
                     </div>
                 </div>
             </form>

@@ -22,3 +22,8 @@ Route::any('student/create', ['uses' => 'StudentController@create']);
 Route::any('student/update/{id}', ['uses' => 'StudentController@update']);
 Route::any('student/delete/{id}', ['uses' => 'StudentController@delete']);
 Route::any('student/show/{id}', ['uses' => 'StudentController@show']);
+
+Route::get('{locale}', function($locale){
+	Session::put('locale', $locale);
+	return redirect()->back();
+});

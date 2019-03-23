@@ -3,19 +3,19 @@ use App\models\Student;
 $student = new Student();
 ?>
 @extends('layout/student')
-@section('title','Add New User')
+@section('title',__('message.add_new_user'))
 @section('content')
     <!-- 所有的错误提示 -->
     @include('shared/message')
     <!-- 自定义内容区域 -->
     <div class="panel panel-default">
-        <div class="panel-heading">@section('subtitle','Add New Student')</div>
+        <div class="panel-heading">@section('subtitle',__('message.add_new_user'))</div>
         <div class="panel-body">
             <form class="form-horizontal" method="post" action="{{ url('student/create') }}">
                 {{ csrf_field() }} 
                 <!-- --產生token -->
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Name</label>
+                    <label for="name" class="col-sm-2 control-label">{{ __('message.name') }}</label>
 
                     <div class="col-sm-5">
                         <input type="text" class="form-control" name="Student[name]" value="{{ old('Student')['name'] }}" id="name" placeholder="Fill the student name">
@@ -25,7 +25,7 @@ $student = new Student();
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="age" class="col-sm-2 control-label">Age</label>
+                    <label for="age" class="col-sm-2 control-label">{{ __('message.age') }}</label>
 
                     <div class="col-sm-5">
                         <input type="text" class="form-control" name="Student[age]" value="{{ old('Student')['age'] }}" id="age" placeholder="Fill the student age">
@@ -35,7 +35,7 @@ $student = new Student();
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Gender</label>
+                    <label class="col-sm-2 control-label">{{ __('message.gender') }}</label>
 
                     <div class="col-sm-5">
                        @foreach($student->gender() as $ind => $gender)
@@ -52,7 +52,7 @@ $student = new Student();
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">{{ __('message.submit') }}</button>
                     </div>
                 </div>
             </form>

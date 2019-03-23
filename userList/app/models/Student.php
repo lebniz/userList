@@ -32,9 +32,9 @@ class Student extends Model
     public function gender($ind = null)
     {
         $arr = array(
-            self::GENDER_F => 'female',
-            self::GENDER_M => 'male',
-            self::GENDER_UN => 'unknown',
+            self::GENDER_F => __('message.female'),
+            self::GENDER_M => __('message.male'),
+            self::GENDER_UN => __('message.unknown'),
         );
 
         if($ind !== null)
