@@ -11,14 +11,14 @@ $student = new Student();
     <div class="panel panel-default">
         <div class="panel-heading">@section('subtitle',__('message.add_new_user'))</div>
         <div class="panel-body">
-            <form class="form-horizontal" method="post" action="{{ url('student/create') }}">
+            <form class="form-horizontal" method="post" action="{{ url('student/store') }}">
                 {{ csrf_field() }} 
                 <!-- --產生token -->
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">{{ __('message.name') }}</label>
 
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" name="Student[name]" value="{{ old('Student')['name'] }}" id="name" placeholder="Fill the student name">
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name" placeholder="Fill the student name">
                     </div>
                     <div class="col-sm-5">
                         <p class="form-control-static text-danger">{{ $errors->first('Student.name') }}</p>
@@ -28,7 +28,7 @@ $student = new Student();
                     <label for="age" class="col-sm-2 control-label">{{ __('message.age') }}</label>
 
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" name="Student[age]" value="{{ old('Student')['age'] }}" id="age" placeholder="Fill the student age">
+                        <input type="text" class="form-control" name="age" value="{{ old('age') }}" id="age" placeholder="Fill the student age">
                     </div>
                     <div class="col-sm-5">
                         <p class="form-control-static text-danger">{{ $errors->first('Student.age') }}</p>
@@ -41,7 +41,7 @@ $student = new Student();
                        @foreach($student->gender() as $ind => $gender)
                         <label class="radio-inline">
                             <input type="radio"
-                            name="Student[gender]" {{ (isset(old('Student')['gender']) && old('Student')['gender'] == $ind) ? 'checked' : '' }}
+                            name="gender" {{ (null !== (old('gender')) && old('gender') == $ind) ? 'checked' : '' }}
                             value="{{ $ind }}"> {{ $gender }}
                         </label>
                         @endforeach

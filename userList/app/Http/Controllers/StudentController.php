@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Requests\StudentStoreRequest;
 use \App\models\Student;
 
 class StudentController extends Controller
@@ -29,36 +30,31 @@ class StudentController extends Controller
 
     public function create(Request $request)
 	{    
-
-		if($request->isMethod('POST')){
-	    	$this->validate($request, [
-	            'Student.name' => 'required|min:3|max:20',
-	            'Student.age' => 'required|integer',
-	            'Student.gender' => 'required|integer',
-        	],[
-			    'required' => ':attribute is required.',
-			    'min' => ':attribute should be between 3-20 characters',
-			    'max' => ':attribute should be between 3-20 characters',
-			    'integer' => ':attribute is integer',
-			],[
-			    'Student.name' => 'Name',
-			    'Student.age' => 'Age',
-			    'Student.gender' => 'Gender',
-			]);
-	    	$data = $request->input('Student');
-	    	$data['created_time'] = time();
-	    	$data['updated_time'] = time();
-		    $ret = Student::insert($data);
-
-	        if($ret){
-	        	return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
-	        }else{
-	        	return redirect('student/create')->with('error', 'Failed to add the student info.')->withInput();
-	        }
-
-    	}
-
 	    return view('student/create');
+	}
+
+	public function store(StudentStoreRequest $request)
+	{
+		try{
+			if (!$request->validated()) {
+	        	return redirect('student/create')->with('error', 'Failed to add the student info.')->withInput();
+			}else{
+				$student = new Student;
+	       		$student->name = $request->name;
+	       		$student->age = $request->age;
+	       		$student->gender = $request->gender;
+	       		$student->order_p = 0;
+	       		$student->created_time = time();
+		    	$student->updated_time = time();
+	       		$student->save(); // returns false
+	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
+			}
+		}
+		catch(\Exception $e){
+       		// do task when error
+       		//echo $e->getMessage();   // insert query
+   		}
+
 	}
 
 	public function update(Request $request, $id)
