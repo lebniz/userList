@@ -1,6 +1,6 @@
 <?php
 
-namespace App\models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,18 @@ class Student extends Model
     /**
      * database related to model
      */
-    protected $table = "student";
+    //protected $table = "student";
+    protected $guarded = [];
+    public $table = "student";
+
+    /**
+     * tasks relation
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+
+    }
 
     protected $fillable = [
         'order_p'
@@ -27,8 +38,6 @@ class Student extends Model
 	/**
      * transmit gender from number to text 
      */
-
-
     public function gender($ind = null)
     {
         $arr = array(

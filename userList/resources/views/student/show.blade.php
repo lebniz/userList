@@ -1,8 +1,7 @@
 <?php
-use App\models\Student;
+use App\Student;
 $student = new Student();
 ?>
-
 @extends('layout/student')
 
 @section('content')
@@ -30,5 +29,13 @@ $student = new Student();
            </tr>
         </tbody>
     </table>
+    @if($students->tasks->count())
+    <span>TASK List</span>
+    <ul>
+      @foreach($students->tasks as $task)
+        <li>{{ $task->description }}</li>
+      @endforeach
+    </ul>
+    @endif
 </div>
 @endsection

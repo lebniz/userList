@@ -1,5 +1,5 @@
 <?php
-use App\Models\Student;
+use App\Student;
 $student = new Student();
 ?>
 
@@ -32,6 +32,7 @@ $student = new Student();
             <th>{{ __('message.name') }}</th>
             <th><a href="javascript:ajaxLoad('{{ url('student?field=age&sort='.(session('sort')=='asc'?'desc':'asc'))}}')">{{ __('message.age') }}</a></th>
             <th><a href="javascript:ajaxLoad('{{ url('student?field=gender&sort='.(session('sort')=='asc'?'desc':'asc'))}}')">{{ __('message.gender') }}</a></th>
+            <th>Number of Task</th>
             <th>{{ __('message.created_time') }}</th>
             <th>{{ __('message.operation') }}</th>
         </thead>
@@ -42,6 +43,7 @@ $student = new Student();
                <td>{{ $student->name }}</td>
                <td>{{ $student->age }}</td>
                <td>{{ $student->gender($student->gender) }}</td>
+                <td>{{ $student->tasks->count() }}</td>
                <td>{{ date('Y-m-d', $student->created_time) }}</td>
                <td>
                    <a href="{{ url('student/show', ['id' => $student->id]) }}">{{ __('message.view') }}</a> | 

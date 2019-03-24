@@ -1,5 +1,5 @@
 <?php
-use App\models\Student;
+use App\Student;
 $student = new Student();
 ?>
 @extends('layout/student')
