@@ -46,7 +46,6 @@ class StudentController extends Controller
 	       		$student->name = $request->name;
 	       		$student->age = $request->age;
 	       		$student->gender = $request->gender;
-	       		$student->order_p = 0;
 	       		$student->save(); // returns false
 	       		
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();

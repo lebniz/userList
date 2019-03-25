@@ -14,12 +14,13 @@ class CreateStudentsTable extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('owner_id')->nullable();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade')->unique()->unsigned();
             $table->string('name');
             $table->integer('age');
             $table->integer('gender');
-            $table->integer('order_p');
+            $table->integer('order_p')->default(0);;
             $table->timestamps();
 
         });
