@@ -48,8 +48,7 @@ $student = new Student();
                   {{ $completed }}
                 @endforeach
               </td>
-                {{-- <td>{{ $student->taskNumber()->first('open') }}</td> --}}
-               <td>{{ date('Y-m-d', $student->created_time) }}</td>
+               <td>{{ $student->created_at }}</td>
                <td>
                    <a href="{{ url('student/show', ['id' => $student->id]) }}">{{ __('message.view') }}</a> | 
                    <a href="{{ url('student/update', ['id' => $student->id]) }}">{{ __('message.edit')}}</a> | 

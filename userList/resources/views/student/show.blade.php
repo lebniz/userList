@@ -23,8 +23,8 @@ $student = new Student();
                <td>{{ $students->name }}</td>
                <td>{{ $students->age }}</td>
                <td>{{ $student->gender($students->gender) }}</td>
-               <td>{{ date('Y-m-d', $students->created_time) }}</td>
-               <td>{{ date('Y-m-d', $students->updated_time) }}</td>
+               <td>{{ $students->created_at }}</td>
+               <td>{{ $students->updated_at }}</td>
            </tr>
         </tbody>
     </table>
@@ -39,7 +39,7 @@ $student = new Student();
                 @method('PATCH')
                 @csrf
                 <label for="completed" class="checkbox {{ $task->completed? 'is-completed': ''}} ">
-                  <input type="checkbox" aria-label="Checkbox for following text input" name="completed" onChange="this.form.submit();">
+                  <input type="checkbox" name="completed" onChange="this.form.submit();" {{ $task->completed? 'checked': ''}}>
                   {{ $task->description }}
                 </label>
               </form>

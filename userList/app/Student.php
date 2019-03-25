@@ -13,7 +13,6 @@ class Student extends Model
     /**
      * database related to model
      */
-    protected $table = "student";
     protected $guarded = [];
 
     /**
@@ -36,7 +35,7 @@ class Student extends Model
     /**
      * assign not to have timestamp on model
      */
-    public $timestamps = false;
+    // public $timestamps = false;
 
 
 	/**

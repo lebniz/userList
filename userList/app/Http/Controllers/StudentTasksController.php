@@ -17,16 +17,13 @@ class StudentTasksController extends Controller
 		]);
 
 		$student->addTask($attributes);
-
 		return back();
 	}
 
 
     public function update(Task $task)
     {
-    	$task->update([
-    		'completed' => request()->has('completed')
-    	]);
+    	request()->has('completed')? $task->complete(): $task->incomplete();
 
     	return back();
     }

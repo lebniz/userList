@@ -11,6 +11,9 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
+
+    	//$student = Student::where('students_id', auth()->id())->get();
+
         $request->session()->put('search', $request->has('search') ? $request->get('search') : ($request->session()->has('search') ? session('search') : ''));
         $request->session()->put('gender', $request->has('gender') ? $request->get('gender') : ($request->session()->has('gender') ? session('gender') : -1));
         $request->session()->put('field', $request->has('field') ? $request->get('field') : ($request->session()->has('field') ? $request->session()->get('field') : 'order_p'));
@@ -44,9 +47,8 @@ class StudentController extends Controller
 	       		$student->age = $request->age;
 	       		$student->gender = $request->gender;
 	       		$student->order_p = 0;
-	       		$student->created_time = time();
-		    	$student->updated_time = time();
 	       		$student->save(); // returns false
+	       		
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 			}
 		}
@@ -82,7 +84,6 @@ class StudentController extends Controller
 	    	$student_info->name = $data['name'];
 	        $student_info->age = $data['age'];
 	        $student_info->gender = $data['gender'];
-	        $student_info->updated_time = time();
 			$ret = $student_info->save();
 
 			if($ret){
