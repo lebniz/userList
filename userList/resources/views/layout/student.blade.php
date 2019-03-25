@@ -9,7 +9,11 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/app.js"></script>
-    
+    <style>
+        .is-completed{
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
 
@@ -38,7 +42,7 @@
 
 @section('footer')
 <!-- footer -->
-<div class="jumbotron" style="margin:0;">
+<div class="jumbotron" style="margin-top:3em;">
     <div class="container">
         <span>  @2018</span>
     </div>

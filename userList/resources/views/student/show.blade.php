@@ -5,7 +5,6 @@ $student = new Student();
 @extends('layout/student')
 
 @section('content')
-
 <!-- customer area -->
 <div class="panel panel-default">
     <div class="panel-heading">Student</div>
@@ -29,13 +28,41 @@ $student = new Student();
            </tr>
         </tbody>
     </table>
-    @if($students->tasks->count())
-    <span>TASK List</span>
-    <ul>
-      @foreach($students->tasks as $task)
-        <li>{{ $task->description }}</li>
-      @endforeach
-    </ul>
-    @endif
+    <div class="row">
+      <div class="col-6">
+        @if($students->tasks->count()) 
+        <span>TASK List</span>
+        <div>
+          @foreach($students->tasks as $task)
+            <div> 
+              <form method="POST" action="/tasks/{{$task->id}}">
+                @method('PATCH')
+                @csrf
+                <label for="completed" class="checkbox {{ $task->completed? 'is-completed': ''}} ">
+                  <input type="checkbox" aria-label="Checkbox for following text input" name="completed" onChange="this.form.submit();">
+                  {{ $task->description }}
+                </label>
+              </form>
+            </div>
+          @endforeach
+        </div>
+        @endif
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        {{-- add a new task form --}}
+          @include('shared/message')
+          <form class="form-inline" method="POST" action="/student/show/{{ $students->id }}/tasks">
+            @csrf
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="New Task" aria-label="New Task" aria-describedby="basic-addon2" name="description">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Add Task</button>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
 </div>
 @endsection

@@ -13,9 +13,8 @@ class Student extends Model
     /**
      * database related to model
      */
-    //protected $table = "student";
+    protected $table = "student";
     protected $guarded = [];
-    public $table = "student";
 
     /**
      * tasks relation
@@ -24,6 +23,11 @@ class Student extends Model
     {
         return $this->hasMany(Task::class);
 
+    }
+
+    public function addTask($task)
+    {
+        $this->tasks()->create($task);
     }
 
     protected $fillable = [
@@ -49,6 +53,20 @@ class Student extends Model
         if($ind !== null)
         {
             return array_key_exists($ind, $arr) ? $arr[$ind] : $arr[self::GENDER_UN];
+        }
+        return $arr;
+    }
+
+    public function taskNumber($ind = null)
+    {
+        $unsolved = $this->hasMany(Task::class)->where('tasks.completed', '=', '0')->count();
+        $solved = $this->hasMany(Task::class)->where('tasks.completed', '=', '1')->count();
+        
+        $arr = array($solved ,' / ' ,$unsolved);
+
+        if($ind !== null)
+        {
+            return array_key_exists($ind, $arr) ? $arr[$ind] : '0';
         }
         return $arr;
     }

@@ -5,9 +5,9 @@ $student = new Student();
 @extends('layout/student')
 
 @section('content')
-    <!-- 所有的错误提示 -->
+    <!-- Error block -->
     @include('shared/message')
-    <!-- 自定义内容区域 -->
+    <!-- customized content -->
     <div class="panel panel-default">
         <div class="panel-heading">{{ __('message.edit')}}</div>
         <div class="panel-body">

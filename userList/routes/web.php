@@ -24,6 +24,9 @@ Route::any('student/delete/{id}', ['uses' => 'StudentController@delete']);
 Route::any('student/show/{id}', ['uses' => 'StudentController@show']);
 Route::post('student/store', 'StudentController@store');
 
+Route::patch('/tasks/{task}', 'StudentTasksController@update');
+Route::post('/student/show/{student}/tasks', 'StudentTasksController@store');
+
 Route::get('{locale}', function($locale){
 	Session::put('locale', $locale);
 	return redirect()->back();
