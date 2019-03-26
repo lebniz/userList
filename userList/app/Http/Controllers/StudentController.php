@@ -17,13 +17,14 @@ class StudentController extends Controller
     public function index(Request $request)
     {	
 
-		$students = Student::where('owner_id', auth()->id()); //access own students only 
 
         $request->session()->put('search', $request->has('search') ? $request->get('search') : ($request->session()->has('search') ? session('search') : ''));
         $request->session()->put('gender', $request->has('gender') ? $request->get('gender') : ($request->session()->has('gender') ? session('gender') : -1));
         $request->session()->put('field', $request->has('field') ? $request->get('field') : ($request->session()->has('field') ? $request->session()->get('field') : 'order_p'));
         $request->session()->put('sort', $request->has('sort') ? $request->get('sort') : ($request->session()->has('sort') ? $request->session()->get('sort') : 'asc'));
-        //$students = new Student();
+
+        $students = new Student();
+		// $students = Student::where('owner_id', auth()->id()); //access own students only 
         if (session('gender') != -1)
             $students = $students->where('gender', session('gender'));
         $students = $students->where('name', 'like', '%' . session('search') . '%')
@@ -34,6 +35,19 @@ class StudentController extends Controller
         else
             return view('student/ajax', compact('students'));
     }
+	
+
+
+	public function show($id){
+
+		$students = Student::findOrFail($id);
+		// $this->authorize('update', $students);
+		//abort_unless(auth()->user()->owns($students), 403); 
+
+		// abort_if(\Gate::denies('update',$students),403);
+		return view('student/show', ['students' => $students]);
+	}
+
 
 
     public function create(Request $request)
@@ -67,6 +81,7 @@ class StudentController extends Controller
 	public function edit(Request $request, $id)
 	{
 		$student = Student::findOrFail($id);
+		$this->authorize('update', $student);
 	    return view('student.edit', ['student' => $student]);
 	}
 
@@ -94,22 +109,10 @@ class StudentController extends Controller
    		}
 	}
 
-
-	public function show($id){
-
-		$students = Student::findOrFail($id);
-		//$this->authorize('update', $students);
-
-		//abort_unless(auth()->user()->owns($students), 403); 
-
-		return view('student/show', ['students' => $students]);
-	}
-
-
 	public function destroy($id)
 	{
 	    $student = Student::findOrFail($id);
-	   
+		$this->authorize('update', $student);
 	   	try{
 			$student->delete();
 		}

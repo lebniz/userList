@@ -38,8 +38,10 @@ $student = new Student();
               <form method="POST" action="/tasks/{{$task->id}}">
                 @method('PATCH')
                 @csrf
+                @can('update',$students)
                 <label for="completed" class="checkbox {{ $task->completed? 'is-completed': ''}} ">
                   <input type="checkbox" name="completed" onChange="this.form.submit();" {{ $task->completed? 'checked': ''}}>
+                @endcan
                   {{ $task->description }}
                 </label>
               </form>
@@ -52,6 +54,7 @@ $student = new Student();
     <div class="row">
       <div class="col-6">
         {{-- add a new task form --}}
+          @can('update',$students)
           @include('shared/message')
           <form class="form-inline" method="POST" action="/student/show/{{ $students->id }}/tasks">
             @csrf
@@ -62,6 +65,7 @@ $student = new Student();
               </div>
             </div>
           </form>
+          @endcan
       </div>
     </div>
 </div>

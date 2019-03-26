@@ -1,6 +1,7 @@
 <?php
 use App\Student;
 $student = new Student();
+$user_id = auth()->id()
 ?>
 
     <div class="row">
@@ -50,9 +51,12 @@ $student = new Student();
               </td>
                <td>{{ $student->created_at }}</td>
                <td>
-                   <a href="{{ route('student.show', ['id' => $student->id]) }}">{{ __('message.view') }}</a> | 
+                   <a href="{{ route('student.show', ['id' => $student->id]) }}">{{ __('message.view') }}</a>
+                @can('update',$student)
+                    | 
                    <a href="{{ route('student.edit', ['id' => $student->id]) }}">{{ __('message.edit')}}</a> | 
                    <a href="{{ route('student.destroy', ['id' => $student->id]) }}" data-method="delete" data-name="{{$student->name}}" data-id="{{ $student->id }}" class="removeItem">{{ __('message.delete')}}</a>
+                @endcan
                </td>
            </tr>
             @endforeach
@@ -100,11 +104,13 @@ $student = new Student();
         },
         success: function (data) {
           $('.row1[data-id='+ url_id +']').slideUp();
-          $('#success-modal .modal-body').html('You Remove ' + name + ' from your list');
-          $('#success-modal').modal('toggle');     
+          $('#alert-modal .modal-body').html('You Remove ' + name + ' from your list');
+          $('#alert-modal').modal('toggle');     
         },
         error: function (data) {
           console.log('Error:', data);
+          $('#alert-modal .modal-body').html('You are not allowed to remove the item.');
+          $('#alert-modal').modal('toggle');     
         }
         });
       }        

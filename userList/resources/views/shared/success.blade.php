@@ -16,12 +16,9 @@
 </div>
 @endif
 
-<div class="modal fade" id="success-modal">
+<div class="modal fade" id="alert-modal">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Success</h4>
-			</div>
 			<div class="modal-body">
 				<p>You made the change.</p>
 			</div>

@@ -9,6 +9,11 @@ use App\Student;
 class StudentTasksController extends Controller
 {
 
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+
 	public function store(Student $student)
 	{
 
@@ -24,6 +29,9 @@ class StudentTasksController extends Controller
     public function update(Task $task)
     {
     	request()->has('completed')? $task->complete(): $task->incomplete();
+		
+    	$student = new Student();
+		$this->authorize('update', $student);
 
     	return back();
     }
