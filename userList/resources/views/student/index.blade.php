@@ -3,7 +3,6 @@ use App\Student;
 $student = new Student();
 $user_id = auth()->id()
 ?>
-
     <div class="row">
         <div class="col-sm-4 form-group">
             {!! Form::select('gender',['-1'=>'Select Gender','1'=>__('message.male'),'0'=>__('message.female'),'2'=>__('message.unknown')],session('gender'),['class'=>'form-control','onChange'=>'ajaxLoad("'.url("student").'?gender="+this.value)']) !!}
