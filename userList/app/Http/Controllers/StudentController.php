@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\StudentStoreRequest;
 use App\Student;
+use App\Mail\StudentCreated;
+use Illuminate\Support\Facades\Mail;
+use Log;
+
 
 class StudentController extends Controller
 {
@@ -68,6 +72,11 @@ class StudentController extends Controller
 	       		$student->owner_id = auth()->id();
 	       		$student->save(); // returns false
 	       		
+
+	       		\Mail::to($student->owner->email)->send(
+	       			new StudentCreated($student)
+	       		);
+
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 			}
 		}
@@ -98,7 +107,7 @@ class StudentController extends Controller
 	       		$student->age = $request->age;
 	       		$student->gender = $request->gender;
 	       		$student->owner_id = auth()->id();
-	       		$student->save(); // returns false
+	       		$student->update(); // returns false
 	       		
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 			}

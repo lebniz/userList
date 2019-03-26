@@ -29,6 +29,12 @@ class Student extends Model
         $this->tasks()->create($task);
     }
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
     protected $fillable = [
         'order_p'
     ];
