@@ -50,9 +50,9 @@ $student = new Student();
               </td>
                <td>{{ $student->created_at }}</td>
                <td>
-                   <a href="{{ url('student/show', ['id' => $student->id]) }}">{{ __('message.view') }}</a> | 
-                   <a href="{{ url('student/update', ['id' => $student->id]) }}">{{ __('message.edit')}}</a> | 
-                   <a onclick="if(confirm('DELETE {{ $student->name }} from student list') == false) return false;" href="{{ url('student/delete', ['id' => $student->id]) }}">{{ __('message.delete')}}</a>
+                   <a href="{{ route('student.show', ['id' => $student->id]) }}">{{ __('message.view') }}</a> | 
+                   <a href="{{ route('student.edit', ['id' => $student->id]) }}">{{ __('message.edit')}}</a> | 
+                   <a href="{{ route('student.destroy', ['id' => $student->id]) }}" data-method="delete" data-name="{{$student->name}}" data-id="{{ $student->id }}" class="removeItem">{{ __('message.delete')}}</a>
                </td>
            </tr>
             @endforeach
@@ -73,6 +73,7 @@ $student = new Student();
 
   $(function () {
 
+
     $( "#sortable" ).sortable({
       items: "tr",
       cursor: 'move',
@@ -80,7 +81,35 @@ $student = new Student();
       update: function() {
           sendOrderToServer();
       }
+
+
     });
+
+
+    $('.removeItem').click(function (event) {
+      event.preventDefault(); // does not go through with the link.
+      var $this = $(this);
+      var url_id = $(this).attr('data-id'), name = $(this).attr('data-name');
+      if(confirm('Are you sure you want to delete this?')) {
+        $.ajax({
+        type: "POST",
+        url: $this.attr('href'),
+        data: {"id": url_id , _method: 'delete' },
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+          $('.row1[data-id='+ url_id +']').slideUp();
+          $('#success-modal .modal-body').html('You Remove ' + name + ' from your list');
+          $('#success-modal').modal('toggle');     
+        },
+        error: function (data) {
+          console.log('Error:', data);
+        }
+        });
+      }        
+    });
+
 
     function sendOrderToServer() {
 
@@ -93,12 +122,12 @@ $student = new Student();
       });
       //if more than 1 page, position goes wrong;
       $.ajax({
-        type: "POST", 
+        type: "PATCH", 
         dataType: "JSON", 
-        url: "{{ url('student') }}",
+        url: "{{ route('student.index') }}",
         data: {
           field: 'order_p',
-          order:order,
+          order: order,
           _token: '{{csrf_token()}}'
 
         },

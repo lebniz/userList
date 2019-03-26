@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * check user owns students
+     *
+     * @var boolean
+     */
+    public function owns(Student $student) {
+        return $student->owner_id == auth()->id(); 
+    }
 }

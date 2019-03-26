@@ -20,11 +20,18 @@
 <!-- header -->
 <div class="jumbotron">
     <div class="container">
-        <h2>{{ __('message.user_list') }}</h2>
-
-        <p> - @yield('subtitle',__('message.list_info') )</p>
+        <div class="row">
+            <div class="col-9">
+                <h2>{{ __('message.user_list') }}</h2>
+                <p> - @yield('subtitle',__('message.list_info') )</p>
+            </div>
+            <div class="col-3">
+                @include('shared/rightside')             
+            </div>
+        </div>
     </div>
 </div>
+
 @show
 <!-- container -->
 <div class="container">

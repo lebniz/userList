@@ -1,6 +1,6 @@
 <?php
 use App\Student;
-$student = new Student();
+$students = new Student();
 ?>
 @extends('layout/student')
 
@@ -11,13 +11,14 @@ $student = new Student();
     <div class="panel panel-default">
         <div class="panel-heading">{{ __('message.edit')}}</div>
         <div class="panel-body">
-            <form class="form-horizontal" method="post" action="">
-                {{ csrf_field() }}
+            <form class="form-horizontal" method="post" action="{{ route('student.update', ['id' => $student->id]) }}">
+                {{ method_field('PATCH') }}
+                @csrf
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">{{ __('message.name')}}</label>
 
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" name="Student[name]" value="{{ old('Student')['name'] ? old('Student')['name'] : $student_info->name }}" id="name" placeholder="Fill the student name">
+                        <input type="text" class="form-control" name="name" value="{{ old('Student')['name'] ? old('Student')['name'] : $student->name }}" id="name" placeholder="Fill the student name">
                     </div>
                     <div class="col-sm-5">
                         <p class="form-control-static text-danger">{{ $errors->first('Student.name') }}</p>
@@ -27,7 +28,7 @@ $student = new Student();
                     <label for="age" class="col-sm-2 control-label">{{ __('message.age')}}</label>
 
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" name="Student[age]" value="{{ old('Student')['age'] ? old('Student')['age'] : $student_info->age }}" id="age" placeholder="Fill the student age">
+                        <input type="text" class="form-control" name="age" value="{{ old('Student')['age'] ? old('Student')['age'] : $student->age }}" id="age" placeholder="Fill the student age">
                     </div>
                     <div class="col-sm-5">
                         <p class="form-control-static text-danger">{{ $errors->first('Student.age') }}</p>
@@ -37,10 +38,10 @@ $student = new Student();
                     <label class="col-sm-2 control-label">{{ __('message.gender')}}</label>
 
                     <div class="col-sm-5">
-                       @foreach($student->gender() as $ind => $gender)
+                       @foreach($students->gender() as $ind => $gender)
                         <label class="radio-inline">
                             <input type="radio"
-                            name="Student[gender]"  {{ ((isset(old('Student')['gender']) && old('Student')['gender'] == $ind) || $student_info->gender == $ind) ? 'checked' : '' }} value="{{ $ind }}"> {{ $gender }}
+                            name="gender"  {{ ((isset(old('Student')['gender']) && old('Student')['gender'] == $ind) || $student->gender == $ind) ? 'checked' : '' }} value="{{ $ind }}"> {{ $gender }}
                         </label>
                         @endforeach
                     </div>

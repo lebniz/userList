@@ -11,7 +11,7 @@ $student = new Student();
     <div class="panel panel-default">
         <div class="panel-heading">@section('subtitle',__('message.add_new_user'))</div>
         <div class="panel-body">
-            <form class="form-horizontal" method="post" action="{{ url('student/store') }}">
+            <form class="form-horizontal" method="post" action="{{ route('student.store') }}" >
                 {{ csrf_field() }} 
                 <!-- --產生token -->
                 <div class="form-group">

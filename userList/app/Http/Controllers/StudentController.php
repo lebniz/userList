@@ -9,16 +9,21 @@ use App\Student;
 
 class StudentController extends Controller
 {
-    public function index(Request $request)
-    {
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 
-    	//$student = Student::where('students_id', auth()->id())->get();
+    public function index(Request $request)
+    {	
+
+		$students = Student::where('owner_id', auth()->id()); //access own students only 
 
         $request->session()->put('search', $request->has('search') ? $request->get('search') : ($request->session()->has('search') ? session('search') : ''));
         $request->session()->put('gender', $request->has('gender') ? $request->get('gender') : ($request->session()->has('gender') ? session('gender') : -1));
         $request->session()->put('field', $request->has('field') ? $request->get('field') : ($request->session()->has('field') ? $request->session()->get('field') : 'order_p'));
         $request->session()->put('sort', $request->has('sort') ? $request->get('sort') : ($request->session()->has('sort') ? $request->session()->get('sort') : 'asc'));
-        $students = new Student();
+        //$students = new Student();
         if (session('gender') != -1)
             $students = $students->where('gender', session('gender'));
         $students = $students->where('name', 'like', '%' . session('search') . '%')
@@ -46,6 +51,7 @@ class StudentController extends Controller
 	       		$student->name = $request->name;
 	       		$student->age = $request->age;
 	       		$student->gender = $request->gender;
+	       		$student->owner_id = auth()->id();
 	       		$student->save(); // returns false
 	       		
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
@@ -53,66 +59,66 @@ class StudentController extends Controller
 		}
 		catch(\Exception $e){
        		// do task when error
-       		//echo $e->getMessage();   // insert query
+       		Log::error('There was an error creating student: '.$e);
    		}
 
 	}
 
-	public function update(Request $request, $id)
+	public function edit(Request $request, $id)
 	{
-		$student_info = Student::findOrFail($id);
+		$student = Student::findOrFail($id);
+	    return view('student.edit', ['student' => $student]);
+	}
 
-		if($request->isMethod('POST')){
 
-	    	$this->validate($request, [
-	            'Student.name' => 'required|min:3|max:20',
-	            'Student.age' => 'required|integer',
-	            'Student.gender' => 'required|integer',
-	    	],[
-			    'required' => ':attribute is required.',
-			    'min' => ':attribute should be between 3-20 characters',
-			    'max' => ':attribute should be between 3-20 characters',
-			    'integer' => ':attribute is integer',
-			],[
-			    'Student.name' => 'Name',
-			    'Student.age' => 'Age',
-			    'Student.gender' => 'Gender',
-			]);
+	public function update(StudentStoreRequest $request, $id)
+	{
+		$student = Student::findOrFail($id);
 
-	    	$data = $request->input('Student');
-	    	$student_info->name = $data['name'];
-	        $student_info->age = $data['age'];
-	        $student_info->gender = $data['gender'];
-			$ret = $student_info->save();
-
-			if($ret){
-				return redirect('student')->with('success', 'Student info is UPDATED!')->withInput();
+		try{
+			if (!$request->validated()) {
+	        	return redirect('student/create')->with('error', 'Failed to add the student info.')->withInput();
 			}else{
-				return redirect('student/update')->with('error', 'Failed to update student info.')->withInput();
+	       		$student->name = $request->name;
+	       		$student->age = $request->age;
+	       		$student->gender = $request->gender;
+	       		$student->owner_id = auth()->id();
+	       		$student->save(); // returns false
+	       		
+	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 			}
 		}
-	    return view('student/update', ['student_info' => $student_info]);
+		catch(\Exception $e){
+       		// do task when error
+       		Log::error('There was an error updating student: '.$e);
+   		}
 	}
 
 
 	public function show($id){
 
 		$students = Student::findOrFail($id);
+		//$this->authorize('update', $students);
+
+		//abort_unless(auth()->user()->owns($students), 403); 
 
 		return view('student/show', ['students' => $students]);
 	}
 
 
-	public function delete($id)
+	public function destroy($id)
 	{
 	    $student = Student::findOrFail($id);
+	   
+	   	try{
+			$student->delete();
+		}
+		catch(\Exception $e){
+       		// do task when error
+       		Log::error('There was an error deleting student: '.$e);
+       		//echo $e->getMessage();   // insert query
+   		}
 
-	    if($student->delete())
-	    {
-	        return redirect('student')->with('success', 'Delete-'.$id. ' SUCCESS');
-	    } else {
-	        return redirect()->back()->with('error', 'DETELE-'.$id.' FAILED');
-	    }
 	}
 
 	public function orderUpdate(Request $request)
