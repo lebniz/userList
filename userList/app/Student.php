@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Mail\StudentCreated;
+use Illuminate\Database\Eloquent\Concerns\created;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Student extends Model
 {
@@ -14,6 +17,20 @@ class Student extends Model
      * database related to model
      */
     protected $guarded = [];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function ($student)
+        {
+            \Mail::to($student->owner->email)->send(
+                new StudentCreated($student)
+            );
+
+        });
+    }
+
 
     /**
      * tasks relation

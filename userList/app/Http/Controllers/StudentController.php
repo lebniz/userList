@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\StudentStoreRequest;
-use App\Student;
 use App\Mail\StudentCreated;
+use App\Student;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Log;
-
 
 class StudentController extends Controller
 {
@@ -71,11 +70,6 @@ class StudentController extends Controller
 	       		$student->gender = $request->gender;
 	       		$student->owner_id = auth()->id();
 	       		$student->save(); // returns false
-	       		
-
-	       		\Mail::to($student->owner->email)->send(
-	       			new StudentCreated($student)
-	       		);
 
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 			}
