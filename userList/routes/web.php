@@ -1,4 +1,6 @@
 <?php
+
+use App\Notifications\SubscriptionRenewalFailed;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +14,15 @@
 
 
 Auth::routes();
+
+Route::get('/', function(){
+	$user = App\User::first();
+
+	$user->notify(new SubscriptionRenewalFailed);
+
+	return 'Done';
+});
+
 
 Route::get('/', 'HomeController@index')->name('home');
 
