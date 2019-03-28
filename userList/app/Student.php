@@ -2,10 +2,8 @@
 
 namespace App;
 
-use App\Mail\StudentCreated;
-use Illuminate\Database\Eloquent\Concerns\created;
+use App\Events\StudentCreated;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
 
 class Student extends Model
 {
@@ -13,23 +11,21 @@ class Student extends Model
    	const GENDER_UN = 2;
     const GENDER_M = 1;
     const GENDER_F = 0;
-    /**
-     * database related to model
-     */
+
+
     protected $guarded = [];
 
+    protected $fillable = [
+        'name',
+        'age',
+        'gender',
+        'order_p',
+        'owner_id',
+    ];
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::created(function ($student)
-        {
-            \Mail::to($student->owner->email)->send(
-                new StudentCreated($student)
-            );
-
-        });
-    }
+    protected $dispatchesEvents = [
+        'saved' => StudentCreated::class 
+    ];
 
 
     /**
@@ -51,10 +47,6 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-
-    protected $fillable = [
-        'order_p'
-    ];
     /**
      * assign not to have timestamp on model
      */

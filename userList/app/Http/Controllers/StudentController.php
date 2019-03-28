@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Requests\StudentStoreRequest;
-use App\Mail\StudentCreated;
 use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -64,12 +62,12 @@ class StudentController extends Controller
 			if (!$request->validated()) {
 	        	return redirect('student/create')->with('error', 'Failed to add the student info.')->withInput();
 			}else{
-				$student = new Student;
-	       		$student->name = $request->name;
-	       		$student->age = $request->age;
-	       		$student->gender = $request->gender;
-	       		$student->owner_id = auth()->id();
-	       		$student->save(); // returns false
+				$request->request->add(['owner_id' => auth()->id()]);
+	       		Student::create($request->all()); 
+	       		
+	       		//You shouldn’t be firing the created if you’re not actually creating a model (save() can be used for both creating and updating a model).
+
+	       		//event(new StudentCreated($student)); now fired in model
 
 	       		return redirect('student')->with('success', 'Now a student is ADDED!')->withInput();
 			}
