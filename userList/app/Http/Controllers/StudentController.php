@@ -30,7 +30,7 @@ class StudentController extends Controller
             $students = $students->where('gender', session('gender'));
         $students = $students->where('name', 'like', '%' . session('search') . '%')
 	        ->orderBy($request->session()->get('field'), $request->session()->get('sort'))
-            ->paginate(30);
+            ->paginate(5);
         if ($request->ajax())
             return view('student/index', compact('students'));
         else

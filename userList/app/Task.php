@@ -24,4 +24,9 @@ class Task extends Model
 	{
 		$this->complete(false);
 	}
+
+	public function completedCount()
+	{
+		return count($this->completed);
+	}
 }

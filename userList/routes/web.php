@@ -1,6 +1,8 @@
 <?php
 
-use App\Notifications\SubscriptionRenewalFailed;
+// use Illuminate\Http\Request;
+
+// use App\Notifications\SubscriptionRenewalFailed;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,12 +17,22 @@ use App\Notifications\SubscriptionRenewalFailed;
 
 Auth::routes();
 
-Route::get('/', function(){
-	$user = App\User::first();
+// Route::get('/', function(){
+// 	$user = App\User::first();
 
-	$user->notify(new SubscriptionRenewalFailed);
+// 	$user->notify(new SubscriptionRenewalFailed);
 
-	return 'Done';
+// 	return 'Done';
+// });
+
+
+Route::middleware('auth')->post('/student', function(){
+	$attributes = request()->validate(['name'=>'required','age'=>'required','gender'=>'required']);
+	$attributes['owner_id'] = auth()->id();
+
+	App\Student::create($attributes);
+
+	return redirect('/');
 });
 
 

@@ -24,7 +24,11 @@ class CreateStudentsTable extends Migration
             $table->timestamps();
 
         });
-        
+
+        Schema::table('students', function (Blueprint $table) {
+            $table->softDeletes();
+        });      
+          
         // Schema::table('students', function($table) {
         //     $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         // });

@@ -3,15 +3,18 @@
 namespace App;
 
 use App\Events\StudentCreated;
+use App\Task;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
     
+    use SoftDeletes;
+
    	const GENDER_UN = 2;
     const GENDER_M = 1;
     const GENDER_F = 0;
-
 
     protected $guarded = [];
 
@@ -73,10 +76,12 @@ class Student extends Model
 
     public function taskNumber($ind = null)
     {
-        $unsolved = $this->hasMany(Task::class)->where('tasks.completed', '=', '0')->count();
-        $solved = $this->hasMany(Task::class)->where('tasks.completed', '=', '1')->count();
+        //$total = $this->tasks()->count('tasks.id');
+        $unsolved = $this->tasks()->where('tasks.completed', '=', '0')->count('tasks.id');
+        $solved = $this->tasks()->where('tasks.completed', '=', '1')->count('tasks.id');
         
-        $arr = array($solved ,' / ' ,$unsolved);
+        // $arr = array( $total,' = ',$solved ,' / ' ,$unsolved);
+        $arr = array( $solved ,' / ' ,$unsolved);
 
         if($ind !== null)
         {

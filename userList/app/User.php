@@ -28,6 +28,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public function isVerified()
+    {
+        return (bool) $this->email_verified_at;
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -45,5 +51,11 @@ class User extends Authenticatable
      */
     public function owns(Student $student) {
         return $student->owner_id == auth()->id(); 
+    }
+
+
+    public function students()
+    {
+        return $this->hasMany(Student::class,'id','owner_id');
     }
 }
