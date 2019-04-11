@@ -35,4 +35,5 @@ class StudentTasksController extends Controller
 
     	return back();
     }
+
 }

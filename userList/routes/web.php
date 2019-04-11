@@ -40,6 +40,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('student','StudentController');
 Route::patch('student', ['uses' => 'StudentController@orderUpdate'])->name('student.sort');
+Route::post('student/export', ['uses' => 'StudentController@export']);
 
 Route::patch('/tasks/{task}', 'StudentTasksController@update');
 Route::post('/student/show/{student}/tasks', 'StudentTasksController@store')->middleware('can:update,student');

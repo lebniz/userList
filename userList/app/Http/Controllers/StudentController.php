@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudentsExport;
 use App\Http\Requests;
 use App\Http\Requests\StudentStoreRequest;
 use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Excel;
+
 
 class StudentController extends Controller
 {
@@ -42,6 +45,7 @@ class StudentController extends Controller
 	public function show($id){
 
 		$students = Student::findOrFail($id);
+		$students->name = collect($students->name)->uppercase()->first();
 		// $this->authorize('update', $students);
 		//abort_unless(auth()->user()->owns($students), 403); 
 
@@ -49,6 +53,11 @@ class StudentController extends Controller
 		return view('student/show', ['students' => $students]);
 	}
 
+
+	public function export() 
+    {
+        return Excel::download(new StudentsExport, 'users.xlsx');
+    }
 
 
     public function create(Request $request)

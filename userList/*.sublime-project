@@ -1,0 +1,20 @@
+{
+    "folders":
+    [
+        {
+            "path": "..."
+        }
+    ],
+    "settings":
+    {
+        "xdebug": {
+            "path_mapping": {
+                "/absolute/path/to/file/on/server" : "/absolute/path/to/file/on/computer",
+                "/var/www/htdocs/example/" : "C:/git/websites/example/"
+            },
+            "url": "http://localhost/index.php",
+            "super_globals": true,
+            "close_on_stop": true
+        }
+    }
+}
