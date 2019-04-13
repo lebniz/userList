@@ -6,10 +6,14 @@ use App\Exports\StudentsExport;
 use App\Http\Requests;
 use App\Http\Requests\StudentStoreRequest;
 use App\Student;
+use Chumper\Zipper\Facades\Zipper;
+use Excel;
+use Illuminate\Console\makeDirectory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Excel;
-
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\isDir;
+use ZipArchive;
 
 class StudentController extends Controller
 {
@@ -54,9 +58,25 @@ class StudentController extends Controller
 	}
 
 
+
 	public function export() 
     {
-        return Excel::download(new StudentsExport, 'users.xlsx');
+		
+		$path=storage_path();
+    	$invoice_file = Excel::store(new StudentsExport, 'test.xlsx','public');
+
+		$public_dir  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+
+	   	$zipFileName = 'AllDocuments.zip';
+
+	    $zip=new ZipArchive(); 
+	    $zip->open( $path. '/' .$zipFileName, ZipArchive::CREATE);
+	    $zip->addFile($public_dir. 'public/test.xlsx', basename('test.xlsx'));
+		$r = $zip->close();
+		
+		unlink($public_dir. 'public/test.xlsx');
+
+		return response()->download($path. '/' .$zipFileName)->deleteFileAfterSend(true);
     }
 
 
